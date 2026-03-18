@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spelling: -dge vs. -ge</title>
+<link rel="icon" href="icon.png" type="image/png">
+<style>
+  body { 
+    font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif; 
+    background-color: #f7fff7; 
+    text-align: center; 
+    margin: 0;
+    padding: 20px;
+  }
+  h1 { color: #2e8b57; }
+  
+  #word-bank { 
+    display: flex; 
+    justify-content: center; 
+    gap: 15px; 
+    margin: 20px auto 40px auto; 
+    min-height: 60px; 
+    flex-wrap: wrap; 
+    padding: 20px;
+    background-color: #e0eee0;
+    border-radius: 15px;
+    border: 2px dashed #b4eeb4;
+    width: 90%;
+  }
+  
+  .tile { 
+    padding: 10px 20px; 
+    background-color: #ffe4e1; 
+    border: 2px solid #cd5c5c; 
+    border-radius: 10px; 
+    cursor: grab; 
+    font-size: 24px; 
+    font-weight: bold; 
+    user-select: none; 
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+  }
+  .tile:active { cursor: grabbing; }
+  
+  .highlight { 
+    color: #e60000; 
+  }
+
+  #columns { 
+    display: flex; 
+    justify-content: space-around; 
+    gap: 20px; 
+    width: 100%;
+  }
+  
+  .column { 
+    flex: 1; 
+    background-color: #ffffff; 
+    border: 3px dashed #3cb371; 
+    border-radius: 15px; 
+    min-height: 400px; 
+    padding: 10px; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    gap: 10px; 
+  }
+  
+  .column h2 { 
+    background-color: #3cb371; 
+    color: white;
+    padding: 10px; 
+    border-radius: 10px; 
+    width: 80%; 
+    margin-top: 0; 
+  }
+</style>
+</head>
+<body>
+  <h1>Sort: -dge OR -ge?</h1>
+  
+  <div id="word-bank"></div>
+  
+  <div id="columns">
+    <div class="column" data-pattern="dge" ondragover="allowDrop(event)" ondrop="drop(event)"><h2>-dge</h2></div>
+    <div class="column" data-pattern="ge" ondragover="allowDrop(event)" ondrop="drop(event)"><h2>-ge</h2></div>
+  </div>
+
+  <script>
+    // Starter word list with highlighting for new endings
+    const words = [
+      { text: 'bri<span class="highlight">dge</span>', pattern: 'dge' },
+      { text: 'e<span class="highlight">dge</span>', pattern: 'dge' },
+      { text: 'ju<span class="highlight">dge</span>', pattern: 'dge' },
+      { text: 'dod<span class="highlight">ge</span>', pattern: 'dge' },
+      { text: 'lod<span class="highlight">ge</span>', pattern: 'dge' },
+      { text: 'ca<span class="highlight">ge</span>', pattern: 'ge' },
+      { text: 'sta<span class="highlight">ge</span>', pattern: 'ge' },
+      { text: 'pa<span class="highlight">ge</span>', pattern: 'ge' },
+      { text: 'lar<span class="highlight">ge</span>', pattern: 'ge' },
+      { text: 'oran<span class="highlight">ge</span>', pattern: 'ge' }
+    ];
+
+    const wordBank = document.getElementById('word-bank');
+
+    // Generate the draggable tiles
+    words.forEach((wordObj, index) => {
+      const tile = document.createElement('div');
+      tile.className = 'tile';
+      tile.innerHTML = wordObj.text;
+      tile.draggable = true;
+      tile.id = 'word-' + index;
+      tile.dataset.pattern = wordObj.pattern; // Used to check correct column
+      tile.ondragstart = drag;
+      wordBank.appendChild(tile);
+    });
+
+    function allowDrop(ev) {
+      ev.preventDefault();
+    }
+
+    function drag(ev) {
+      ev.dataTransfer.setData("text", ev.target.id);
+    }
+
+    function drop(ev) {
+      ev.preventDefault();
+      const data = ev.dataTransfer.getData("text");
+      const draggedElement = document.getElementById(data);
+      const dropZone = ev.target.closest('.column');
+      
+      // Check if dropped in a column and if the pattern matches
+      if (dropZone && draggedElement.dataset.pattern === dropZone.dataset.pattern) {
+        dropZone.appendChild(draggedElement);
+      } else {
+        alert("Oops! Look closely at the highlighted letters. Does it end in '-dge' or '-ge'?");
+      }
+    }
+  </script>
+</body>
+</html>
