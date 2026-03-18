@@ -7,12 +7,23 @@
 <style>
   body { 
     font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif; 
-    background-color: #f0f8ff; 
+    /* A soft, sunny blue gradient background built with code */
+    background: linear-gradient(135deg, #e0f7fa 0%, #81d4fa 100%);
+    min-height: 100vh;
     text-align: center; 
     margin: 0;
     padding: 20px;
   }
-  h1 { color: #333; }
+  
+  h1 { 
+    color: #0277bd; 
+    background-color: rgba(255, 255, 255, 0.9);
+    display: inline-block;
+    padding: 10px 30px;
+    border-radius: 20px;
+    border: 3px dashed #4fc3f7;
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
+  }
   
   #word-bank { 
     display: flex; 
@@ -22,27 +33,28 @@
     min-height: 60px; 
     flex-wrap: wrap; 
     padding: 20px;
-    background-color: #e6f2ff;
+    background-color: rgba(255, 255, 255, 0.85);
     border-radius: 15px;
-    border: 2px dashed #b3d9ff;
+    border: 2px dashed #0288d1;
     width: 90%;
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.05);
   }
   
   .tile { 
     padding: 10px 20px; 
-    background-color: #ffe4b5; 
-    border: 2px solid #ff8c00; 
+    background-color: #fff9c4; 
+    border: 2px solid #fbc02d; 
     border-radius: 10px; 
     cursor: grab; 
     font-size: 24px; 
     font-weight: bold; 
     user-select: none; 
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.15);
   }
   .tile:active { cursor: grabbing; }
   
   .highlight { 
-    color: #e60000; 
+    color: #d32f2f; 
   }
 
   #columns { 
@@ -54,8 +66,8 @@
   
   .column { 
     flex: 1; 
-    background-color: #ffffff; 
-    border: 3px dashed #87ceeb; 
+    background-color: rgba(255, 255, 255, 0.9); 
+    border: 3px dashed #29b6f6; 
     border-radius: 15px; 
     min-height: 400px; 
     padding: 10px; 
@@ -63,10 +75,18 @@
     flex-direction: column; 
     align-items: center; 
     gap: 10px; 
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.05);
+  }
+  
+  /* Style for the emoji visual clues */
+  .clue-icon {
+    font-size: 50px;
+    margin-top: 10px;
+    margin-bottom: -10px;
   }
   
   .column h2 { 
-    background-color: #87ceeb; 
+    background-color: #29b6f6; 
     color: white;
     padding: 10px; 
     border-radius: 10px; 
@@ -81,15 +101,29 @@
   <div id="word-bank"></div>
   
   <div id="columns">
-    <div class="column" data-pattern="o_e" ondragover="allowDrop(event)" ondrop="drop(event)"><h2>o_e</h2></div>
-    <div class="column" data-pattern="oa" ondragover="allowDrop(event)" ondrop="drop(event)"><h2>oa</h2></div>
-    <div class="column" data-pattern="ow" ondragover="allowDrop(event)" ondrop="drop(event)"><h2>ow</h2></div>
-    <div class="column" data-pattern="o" ondragover="allowDrop(event)" ondrop="drop(event)"><h2>o</h2></div>
-    <div class="column" data-pattern="oe" ondragover="allowDrop(event)" ondrop="drop(event)"><h2>oe</h2></div>
+    <div class="column" data-pattern="o_e" ondragover="allowDrop(event)" ondrop="drop(event)">
+      <div class="clue-icon">🦴</div>
+      <h2>o_e</h2>
+    </div>
+    <div class="column" data-pattern="oa" ondragover="allowDrop(event)" ondrop="drop(event)">
+      <div class="clue-icon">⛵</div>
+      <h2>oa</h2>
+    </div>
+    <div class="column" data-pattern="ow" ondragover="allowDrop(event)" ondrop="drop(event)">
+      <div class="clue-icon">❄️</div>
+      <h2>ow</h2>
+    </div>
+    <div class="column" data-pattern="o" ondragover="allowDrop(event)" ondrop="drop(event)">
+      <div class="clue-icon">🤖</div>
+      <h2>o</h2>
+    </div>
+    <div class="column" data-pattern="oe" ondragover="allowDrop(event)" ondrop="drop(event)">
+      <div class="clue-icon">🦶</div>
+      <h2>oe</h2>
+    </div>
   </div>
 
   <script>
-    // Word list with HTML highlighting built in
     const words = [
       { text: 'b<span class="highlight">o</span>n<span class="highlight">e</span>', pattern: 'o_e' },
       { text: 'r<span class="highlight">o</span>p<span class="highlight">e</span>', pattern: 'o_e' },
@@ -105,14 +139,13 @@
 
     const wordBank = document.getElementById('word-bank');
 
-    // Generate the draggable tiles
     words.forEach((wordObj, index) => {
       const tile = document.createElement('div');
       tile.className = 'tile';
       tile.innerHTML = wordObj.text;
       tile.draggable = true;
       tile.id = 'word-' + index;
-      tile.dataset.pattern = wordObj.pattern; // Used to check correct column
+      tile.dataset.pattern = wordObj.pattern; 
       tile.ondragstart = drag;
       wordBank.appendChild(tile);
     });
@@ -131,11 +164,10 @@
       const draggedElement = document.getElementById(data);
       const dropZone = ev.target.closest('.column');
       
-      // Check if dropped in a column and if the pattern matches
       if (dropZone && draggedElement.dataset.pattern === dropZone.dataset.pattern) {
         dropZone.appendChild(draggedElement);
       } else {
-        alert("Oops! Try looking closely at the highlighted letters.");
+        alert("Oops! Try looking closely at the highlighted letters and the picture clue!");
       }
     }
   </script>
