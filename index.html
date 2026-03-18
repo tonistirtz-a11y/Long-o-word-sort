@@ -3,17 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Spelling: -dge vs. -ge</title>
-<link rel="icon" href="icon.png" type="image/png">
+<title>Long O Sorting Game</title>
 <style>
   body { 
     font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif; 
-    background-color: #f7fff7; 
+    background-color: #f0f8ff; 
     text-align: center; 
     margin: 0;
     padding: 20px;
   }
-  h1 { color: #2e8b57; }
+  h1 { color: #333; }
   
   #word-bank { 
     display: flex; 
@@ -23,16 +22,16 @@
     min-height: 60px; 
     flex-wrap: wrap; 
     padding: 20px;
-    background-color: #e0eee0;
+    background-color: #e6f2ff;
     border-radius: 15px;
-    border: 2px dashed #b4eeb4;
+    border: 2px dashed #b3d9ff;
     width: 90%;
   }
   
   .tile { 
     padding: 10px 20px; 
-    background-color: #ffe4e1; 
-    border: 2px solid #cd5c5c; 
+    background-color: #ffe4b5; 
+    border: 2px solid #ff8c00; 
     border-radius: 10px; 
     cursor: grab; 
     font-size: 24px; 
@@ -49,14 +48,14 @@
   #columns { 
     display: flex; 
     justify-content: space-around; 
-    gap: 20px; 
+    gap: 10px; 
     width: 100%;
   }
   
   .column { 
     flex: 1; 
     background-color: #ffffff; 
-    border: 3px dashed #3cb371; 
+    border: 3px dashed #87ceeb; 
     border-radius: 15px; 
     min-height: 400px; 
     padding: 10px; 
@@ -67,7 +66,7 @@
   }
   
   .column h2 { 
-    background-color: #3cb371; 
+    background-color: #87ceeb; 
     color: white;
     padding: 10px; 
     border-radius: 10px; 
@@ -77,28 +76,31 @@
 </style>
 </head>
 <body>
-  <h1>Sort: -dge OR -ge?</h1>
+  <h1>Sort the Long 'O' Words!</h1>
   
   <div id="word-bank"></div>
   
   <div id="columns">
-    <div class="column" data-pattern="dge" ondragover="allowDrop(event)" ondrop="drop(event)"><h2>-dge</h2></div>
-    <div class="column" data-pattern="ge" ondragover="allowDrop(event)" ondrop="drop(event)"><h2>-ge</h2></div>
+    <div class="column" data-pattern="o_e" ondragover="allowDrop(event)" ondrop="drop(event)"><h2>o_e</h2></div>
+    <div class="column" data-pattern="oa" ondragover="allowDrop(event)" ondrop="drop(event)"><h2>oa</h2></div>
+    <div class="column" data-pattern="ow" ondragover="allowDrop(event)" ondrop="drop(event)"><h2>ow</h2></div>
+    <div class="column" data-pattern="o" ondragover="allowDrop(event)" ondrop="drop(event)"><h2>o</h2></div>
+    <div class="column" data-pattern="oe" ondragover="allowDrop(event)" ondrop="drop(event)"><h2>oe</h2></div>
   </div>
 
   <script>
-    // Starter word list with highlighting for new endings
+    // Word list with HTML highlighting built in
     const words = [
-      { text: 'bri<span class="highlight">dge</span>', pattern: 'dge' },
-      { text: 'e<span class="highlight">dge</span>', pattern: 'dge' },
-      { text: 'ju<span class="highlight">dge</span>', pattern: 'dge' },
-      { text: 'dod<span class="highlight">ge</span>', pattern: 'dge' },
-      { text: 'lod<span class="highlight">ge</span>', pattern: 'dge' },
-      { text: 'ca<span class="highlight">ge</span>', pattern: 'ge' },
-      { text: 'sta<span class="highlight">ge</span>', pattern: 'ge' },
-      { text: 'pa<span class="highlight">ge</span>', pattern: 'ge' },
-      { text: 'lar<span class="highlight">ge</span>', pattern: 'ge' },
-      { text: 'oran<span class="highlight">ge</span>', pattern: 'ge' }
+      { text: 'b<span class="highlight">o</span>n<span class="highlight">e</span>', pattern: 'o_e' },
+      { text: 'r<span class="highlight">o</span>p<span class="highlight">e</span>', pattern: 'o_e' },
+      { text: 'b<span class="highlight">oa</span>t', pattern: 'oa' },
+      { text: 'c<span class="highlight">oa</span>t', pattern: 'oa' },
+      { text: 'sn<span class="highlight">ow</span>', pattern: 'ow' },
+      { text: 'gr<span class="highlight">ow</span>', pattern: 'ow' },
+      { text: 'g<span class="highlight">o</span>', pattern: 'o' },
+      { text: 's<span class="highlight">o</span>', pattern: 'o' },
+      { text: 't<span class="highlight">oe</span>', pattern: 'oe' },
+      { text: 'h<span class="highlight">oe</span>', pattern: 'oe' }
     ];
 
     const wordBank = document.getElementById('word-bank');
@@ -133,7 +135,7 @@
       if (dropZone && draggedElement.dataset.pattern === dropZone.dataset.pattern) {
         dropZone.appendChild(draggedElement);
       } else {
-        alert("Oops! Look closely at the highlighted letters. Does it end in '-dge' or '-ge'?");
+        alert("Oops! Try looking closely at the highlighted letters.");
       }
     }
   </script>
